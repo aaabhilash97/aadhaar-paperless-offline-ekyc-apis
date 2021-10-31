@@ -63,10 +63,10 @@ If client wants to use gRPC interface, client can generate client code from `api
 
 To fetch captcha and session id from UIDAI.
 
-* ### **gRPC FUNCTION NAME** - GetCaptcha
-* ### **METHOD** - `GET`
-* ### **URL** - `{{baseUrl}}/api/v1/GetCaptcha`
-* ### **RESPONSE**
+* #### **gRPC FUNCTION NAME** - GetCaptcha
+* #### **METHOD** - `GET`
+* #### **URL** - `{{baseUrl}}/api/v1/GetCaptcha`
+* #### **RESPONSE**
 ```json
       {
           "status": {
@@ -86,10 +86,10 @@ Once captcha fetched, need to call this API with aadhaar number(uid_no) and capt
 
 On success user will receive an OTP on phone number associated with aadhaar.
 
-* ### **gRPC FUNCTION NAME** - VerifyCaptcha
-* ### **METHOD** - `POST`
-* ### **URL** - `{{baseUrl}}/api/v1/VerifyCaptcha`
-* ### **REQUEST**
+* #### **gRPC FUNCTION NAME** - VerifyCaptcha
+* #### **METHOD** - `POST`
+* #### **URL** - `{{baseUrl}}/api/v1/VerifyCaptcha`
+* #### **REQUEST**
 ```json
       {
           "session_id": <string | session id>,
@@ -98,7 +98,7 @@ On success user will receive an OTP on phone number associated with aadhaar.
       }
 ```
 
-* ### **RESPONSE**
+* #### **RESPONSE**
 ```json
       {
           "status": {
@@ -112,10 +112,10 @@ On success user will receive an OTP on phone number associated with aadhaar.
 
 Call this API with OTP received to download zip file from UIDAI and fetch details.
 
-* ### **gRPC FUNCTION NAME** - VerifyOtpAndGetAadhaar
-* ### **METHOD** - `POST`
-* ### **URL** - `{{baseUrl}}/api/v1/VerifyOtpAndGetAadhaar`
-* ### **REQUEST**
+* #### **gRPC FUNCTION NAME** - VerifyOtpAndGetAadhaar
+* #### **METHOD** - `POST`
+* #### **URL** - `{{baseUrl}}/api/v1/VerifyOtpAndGetAadhaar`
+* #### **REQUEST**
 ```json
       {
           "session_id": <string | session id>,
@@ -126,7 +126,7 @@ Call this API with OTP received to download zip file from UIDAI and fetch detail
       }
 ```
 
-* ### **RESPONSE**
+* #### **RESPONSE**
 ```json
 {
     "status": {
@@ -163,14 +163,14 @@ Call this API with OTP received to download zip file from UIDAI and fetch detail
 ```
 
 # Response Status Codes
-* ### **2000** - Success
-* ### **4000** - Request validation errors
-* ### **5000** - Unknown error
-* ### **5001** - UIDAI technical issue error
-* ### **4002** - Invalid captcha
-* ### **4003** - Invalid OTP
-* ### **4004** - Invalid aadhaar number
-* ### **4005** - Session expired
-* ### **4006** - Invalid session id
-* ### **4090** - Aadhaar already downloaded error.
+* #### **2000** - Success
+* #### **4000** - Request validation errors
+* #### **5000** - Unknown error
+* #### **5001** - UIDAI technical issue error
+* #### **4002** - Invalid captcha
+* #### **4003** - Invalid OTP
+* #### **4004** - Invalid aadhaar number
+* #### **4005** - Session expired
+* #### **4006** - Invalid session id
+* #### **4090** - Aadhaar already downloaded error.
 
