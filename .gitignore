@@ -1,0 +1,7 @@
+misc/
+*.log
+.DS_Store
+config.yml
+configs/config.yml
+configs/local.yml
+dist/

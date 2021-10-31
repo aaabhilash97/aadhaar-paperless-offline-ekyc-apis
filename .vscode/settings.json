@@ -1,0 +1,15 @@
+{
+    "cSpell.words": [
+        "Aadhaar",
+        "aadhaarapi",
+        "aadhaarcache",
+        "grpc",
+        "TOTP"
+    ],
+    "protoc": {
+        "options": [
+            "--proto_path=api/proto",
+            "--proto_path=third_party/"
+        ]
+    }
+}

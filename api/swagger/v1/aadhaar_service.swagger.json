@@ -1,0 +1,446 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "AadhaarScrapper",
+    "version": "1.0",
+    "contact": {
+      "name": "akm",
+      "email": "aaabhilash97@gmail.com"
+    }
+  },
+  "tags": [
+    {
+      "name": "AadhaarService"
+    }
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/AutoVerifyCaptcha": {
+      "post": {
+        "operationId": "AadhaarService_AutoVerifyCaptcha",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/aadhaarscrapperv1AutoVerifyCaptchaResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/aadhaarscrapperv1AutoVerifyCaptchaRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AadhaarService"
+        ]
+      }
+    },
+    "/api/v1/GetCaptcha": {
+      "get": {
+        "summary": "To fetch captcha and session id from UIDAI.",
+        "operationId": "AadhaarService_GetCaptcha",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/aadhaarscrapperv1GetCaptchaResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "AadhaarService"
+        ]
+      }
+    },
+    "/api/v1/VerifyCaptcha": {
+      "post": {
+        "summary": "Once captcha fetched, need to call this API with aadhaar number(uid_no) and\ncaptcha(security_code).\nOn success user will receive an OTP on phone number associated with\naadhaar.",
+        "operationId": "AadhaarService_VerifyCaptcha",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/aadhaarscrapperv1VerifyCaptchaResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/aadhaarscrapperv1VerifyCaptchaRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AadhaarService"
+        ]
+      }
+    },
+    "/api/v1/VerifyOtpAndGetAadhaar": {
+      "post": {
+        "summary": "download zip file from UIDAI and fetch details.",
+        "operationId": "AadhaarService_VerifyOtpAndGetAadhaar",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/aadhaarscrapperv1VerifyOtpAndGetAadhaarResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/aadhaarscrapperv1VerifyOtpAndGetAadhaarRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AadhaarService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "AadhaarDetailsPoa": {
+      "type": "object",
+      "properties": {
+        "careof": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "dist": {
+          "type": "string"
+        },
+        "house": {
+          "type": "string"
+        },
+        "landmark": {
+          "type": "string"
+        },
+        "locality": {
+          "type": "string"
+        },
+        "pincode": {
+          "type": "string"
+        },
+        "postoffice": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "street": {
+          "type": "string"
+        },
+        "subdist": {
+          "type": "string"
+        },
+        "vtc": {
+          "type": "string"
+        }
+      }
+    },
+    "AadhaarDetailsPoi": {
+      "type": "object",
+      "properties": {
+        "dob": {
+          "type": "string"
+        },
+        "emailHash": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "string"
+        },
+        "mobileHash": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "ResponseStatusValidationErrDetail": {
+      "type": "object",
+      "properties": {
+        "field": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        }
+      }
+    },
+    "aadhaarscrapperv1AadhaarDetails": {
+      "type": "object",
+      "properties": {
+        "poi": {
+          "$ref": "#/definitions/AadhaarDetailsPoi"
+        },
+        "poa": {
+          "$ref": "#/definitions/AadhaarDetailsPoa"
+        },
+        "photo": {
+          "type": "string"
+        }
+      }
+    },
+    "aadhaarscrapperv1AutoVerifyCaptchaRequest": {
+      "type": "object",
+      "properties": {
+        "uidNo": {
+          "type": "string"
+        }
+      }
+    },
+    "aadhaarscrapperv1AutoVerifyCaptchaResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/aadhaarscrapperv1ResponseStatus"
+        },
+        "data": {
+          "$ref": "#/definitions/aadhaarscrapperv1AutoVerifyCaptchaResponseData"
+        }
+      }
+    },
+    "aadhaarscrapperv1AutoVerifyCaptchaResponseData": {
+      "type": "object",
+      "properties": {
+        "sessionId": {
+          "type": "string"
+        },
+        "captchaImage": {
+          "type": "string"
+        }
+      }
+    },
+    "aadhaarscrapperv1GetCaptchaResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/aadhaarscrapperv1ResponseStatus"
+        },
+        "data": {
+          "$ref": "#/definitions/aadhaarscrapperv1GetCaptchaResponseData"
+        }
+      }
+    },
+    "aadhaarscrapperv1GetCaptchaResponseData": {
+      "type": "object",
+      "properties": {
+        "sessionId": {
+          "type": "string"
+        },
+        "captchaImage": {
+          "type": "string"
+        }
+      }
+    },
+    "aadhaarscrapperv1ResponseStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "validationDetails": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ResponseStatusValidationErrDetail"
+          }
+        }
+      }
+    },
+    "aadhaarscrapperv1VerifyCaptchaRequest": {
+      "type": "object",
+      "properties": {
+        "sessionId": {
+          "type": "string"
+        },
+        "uidNo": {
+          "type": "string"
+        },
+        "securityCode": {
+          "type": "string"
+        }
+      }
+    },
+    "aadhaarscrapperv1VerifyCaptchaResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/aadhaarscrapperv1ResponseStatus"
+        }
+      }
+    },
+    "aadhaarscrapperv1VerifyOtpAndGetAadhaarRequest": {
+      "type": "object",
+      "properties": {
+        "sessionId": {
+          "type": "string"
+        },
+        "otp": {
+          "type": "string"
+        },
+        "zipCode": {
+          "type": "string"
+        },
+        "includeZipFile": {
+          "type": "boolean"
+        },
+        "includeXmlFile": {
+          "type": "boolean"
+        }
+      }
+    },
+    "aadhaarscrapperv1VerifyOtpAndGetAadhaarResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/aadhaarscrapperv1ResponseStatus"
+        },
+        "data": {
+          "$ref": "#/definitions/aadhaarscrapperv1VerifyOtpAndGetAadhaarResponseData"
+        }
+      }
+    },
+    "aadhaarscrapperv1VerifyOtpAndGetAadhaarResponseData": {
+      "type": "object",
+      "properties": {
+        "details": {
+          "$ref": "#/definitions/aadhaarscrapperv1AadhaarDetails"
+        },
+        "zipFile": {
+          "type": "string"
+        },
+        "xmlFile": {
+          "type": "string",
+          "title": "additional fields if required"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "typeUrl": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "app_key": {
+      "type": "apiKey",
+      "description": "App key",
+      "name": "x-app-key",
+      "in": "header"
+    },
+    "app_secret": {
+      "type": "apiKey",
+      "description": "App secret",
+      "name": "x-app-secret",
+      "in": "header"
+    }
+  }
+}

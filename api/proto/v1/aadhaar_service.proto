@@ -1,0 +1,223 @@
+syntax = "proto3";
+package aadhaarscrapperv1;
+
+option java_multiple_files = true;
+
+option go_package = ".;aadhaarscrapper";
+
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "validate/validate.proto";
+
+message HealthCheckRequest {
+  string service = 1;
+  string restart_code = 2;
+  string command = 3;
+}
+
+message DefaultSuccessResponse { string msg = 1; }
+
+message HealthCheckResponse {
+  enum ServingStatus {
+    UNKNOWN = 0;
+    SERVING = 1;
+    NOT_SERVING = 2;
+  }
+  ServingStatus status = 1;
+  map<string, string> mem_stat = 2;
+}
+
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info : {title : "AadhaarScrapper";
+version : "1.0";
+contact : {
+name:
+  "akm";
+url:
+  "";
+email:
+  "aaabhilash97@gmail.com";
+};
+}
+;
+security_definitions : {
+security : {
+key:
+  "app_key";
+value : {
+
+type:
+  TYPE_API_KEY;
+in:
+  IN_HEADER;
+name:
+  "x-app-key";
+description:
+  "App key";
+};
+};
+security : {
+key:
+  "app_secret" value : {
+  type:
+    TYPE_API_KEY;
+  in:
+    IN_HEADER;
+  name:
+    "x-app-secret";
+  description:
+    "App secret";
+  };
+}
+};
+host : "";
+schemes :
+    [HTTP, HTTPS];
+consumes : "application/json";
+produces : "application/json";
+responses : {
+key:
+  "404" value : {
+  description:
+    "Returned when the resource does not exist.";
+  schema : {
+  json_schema : {
+  type:
+    STRING;
+  };
+  };
+  };
+};
+}
+;
+
+message ResponseStatus {
+  string code = 1;
+  string message = 2;
+  message ValidationErrDetail {
+    string field = 1;
+    string reason = 2;
+  }
+  repeated ValidationErrDetail validation_details = 3;
+}
+
+message GetCaptchaRequest {}
+message GetCaptchaResponse {
+  ResponseStatus status = 1;
+
+  message Data {
+    string session_id = 1;
+    string captcha_image = 2;
+  }
+  Data data = 2;
+}
+
+message VerifyCaptchaRequest {
+  string session_id = 1 [ (validate.rules).string = {min_len : 1} ];
+  string uid_no = 2
+      [ (validate.rules).string =
+            {pattern : "^[0-9]*$", max_bytes : 16, min_len : 12} ];
+  string security_code = 3 [ (validate.rules).string = {min_len : 1} ];
+}
+message VerifyCaptchaResponse { ResponseStatus status = 1; }
+
+message VerifyOtpAndGetAadhaarRequest {
+  string session_id = 1 [ (validate.rules).string = {min_len : 1} ];
+  string otp = 2 [ (validate.rules).string = {min_len : 6, max_len : 8} ];
+  string zip_code = 3 [ (validate.rules).string = {min_len : 4, max_len : 4} ];
+
+  bool include_zip_file = 4;
+  bool include_xml_file = 5;
+}
+
+message AadhaarDetails {
+  message Poi {
+    string dob = 1;
+    string email_hash = 2;
+    string gender = 3;
+    string mobile_hash = 4;
+    string name = 5;
+  }
+  message Poa {
+    string careof = 1;
+    string country = 2;
+    string dist = 3;
+    string house = 4;
+    string landmark = 5;
+    string locality = 6;
+    string pincode = 7;
+    string postoffice = 8;
+    string state = 9;
+    string street = 10;
+    string subdist = 11;
+    string vtc = 12;
+  }
+  Poi poi = 1;
+  Poa poa = 2;
+  string photo = 3;
+}
+
+message VerifyOtpAndGetAadhaarResponse {
+  ResponseStatus status = 1;
+  message Data {
+    AadhaarDetails details = 1;
+
+    string zip_file = 2; // base64 encoded, optional fields, need to pass
+                         // additional fields if required
+    string xml_file = 3; // base64 encoded, optional fields, need to pass
+                         // additional fields if required
+  }
+  Data data = 2;
+}
+
+message AutoVerifyCaptchaRequest {
+  string uid_no = 1 [
+    (validate.rules).string = {pattern : "^[0-9]*$", max_len : 16, min_len : 12}
+  ];
+}
+message AutoVerifyCaptchaResponse {
+  ResponseStatus status = 1;
+  message Data {
+    string session_id = 1;
+    string captcha_image = 2;
+  }
+  Data data = 2;
+}
+
+// AadhaarService
+service AadhaarService {
+  // To fetch captcha and session id from UIDAI.
+  rpc GetCaptcha(GetCaptchaRequest) returns (GetCaptchaResponse) {
+    option (google.api.http) = {
+      get : "/api/v1/GetCaptcha"
+    };
+  }
+
+  // Once captcha fetched, need to call this API with aadhaar number(uid_no) and
+  // captcha(security_code).
+  // On success user will receive an OTP on phone number associated with
+  // aadhaar.
+  rpc VerifyCaptcha(VerifyCaptchaRequest) returns (VerifyCaptchaResponse) {
+    option (google.api.http) = {
+      post : "/api/v1/VerifyCaptcha"
+      body : "*"
+    };
+  }
+
+  // download zip file from UIDAI and fetch details.
+  rpc VerifyOtpAndGetAadhaar(VerifyOtpAndGetAadhaarRequest)
+      returns (VerifyOtpAndGetAadhaarResponse) {
+    option (google.api.http) = {
+      post : "/api/v1/VerifyOtpAndGetAadhaar"
+      body : "*"
+    };
+  }
+
+  rpc AutoVerifyCaptcha(AutoVerifyCaptchaRequest)
+      returns (AutoVerifyCaptchaResponse) {
+    option (google.api.http) = {
+      post : "/api/v1/AutoVerifyCaptcha"
+      body : "*"
+    };
+  }
+}

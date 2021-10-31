@@ -1,0 +1,14 @@
+server:
+  grpcPort: 4444
+  httpPort: 3333
+  host: "0.0.0.0"
+
+logger:
+  outputPath: "stdout"
+  level: "info"
+  disableStackTrace: true
+
+accessLogger:
+  outputPath: "stdout"
+  level: "error"
+  disableStackTrace: true
