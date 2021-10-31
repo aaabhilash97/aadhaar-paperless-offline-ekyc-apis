@@ -69,12 +69,6 @@ releaseb:
 	@ go build -ldflags "-s -w -X main.gitCommit=$(LAST_COMMIT) -X main.gitTag=$(TAG)" -o dist/server-$(PLATFORM_INFO) cmd/server/main.go;
 	@ echo "Compiling binary success - output=dist/server-$(PLATFORM_INFO)"
 
-# Create release binary for current Platform
-releaseclientb:
-	@ echo "Compiling client release binary"
-	@ go build -ldflags "-s -w" -o dist/client-$(PLATFORM_INFO) cmd/client-grpc/main.go;
-	@ echo "Compiling client binary success - output=dist/client-$(PLATFORM_INFO)"
-
 
 # Create debug binary for current platform
 debugb:
