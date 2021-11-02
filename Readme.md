@@ -32,7 +32,7 @@ Default port for gRPC server is 4444 and REST is 3333. (configs/default.yml).
 This can be changed by adding environment specific configs.
 
 Example:
-Download binary from releases
+
 Add `configs/local.yml` and run `go run cmd/server/main.go --conf configs/local.yml`
 
 ```yml
