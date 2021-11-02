@@ -23,7 +23,7 @@ FROM gcr.io/distroless/static-debian11
 
 WORKDIR /app-server
 
-COPY --from=build-env /app-server/ /app-server
+COPY --from=build-env /app-server/app /app-server
 
 ENTRYPOINT ["/app-server/app"]
 EXPOSE 3333
