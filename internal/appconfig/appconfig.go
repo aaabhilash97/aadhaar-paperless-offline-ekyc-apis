@@ -2,6 +2,7 @@ package appconfig
 
 import (
 	"bytes"
+	"fmt"
 	"os"
 
 	"github.com/aaabhilash97/aadhaar_scrapper_apis/configs"
@@ -22,8 +23,20 @@ func Init() *Config {
 
 	var config Config
 	{
+		version := pflag.Bool("version", false, "Show version information")
+
 		pflag.String("conf", "", "config path")
 		pflag.Parse()
+
+		if *version {
+			msg := fmt.Sprintf(`Git Tag:      %s
+	Git commit:   %s`,
+				os.Getenv("VERSION_INFO_GIT_TAG"),
+				os.Getenv("VERSION_INFO_GIT_COMMIT"))
+
+			fmt.Println(msg)
+			os.Exit(0)
+		}
 
 		viperConfig := viper.New()
 		viperConfig.AutomaticEnv()

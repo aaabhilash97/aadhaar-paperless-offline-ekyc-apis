@@ -8,8 +8,11 @@ import (
 	cmd "github.com/aaabhilash97/aadhaar_scrapper_apis/internal/cmd/server"
 )
 
-func init() {
+var gitCommit, gitTag string
 
+func init() {
+	os.Setenv("VERSION_INFO_GIT_COMMIT", gitCommit)
+	os.Setenv("VERSION_INFO_GIT_TAG", gitTag)
 }
 
 func main() {
