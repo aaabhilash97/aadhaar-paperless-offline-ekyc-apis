@@ -30,7 +30,7 @@ func Init() *Config {
 
 		if *version {
 			msg := fmt.Sprintf(`Git Tag:      %s
-	Git commit:   %s`,
+Git commit:   %s`,
 				os.Getenv("VERSION_INFO_GIT_TAG"),
 				os.Getenv("VERSION_INFO_GIT_COMMIT"))
 
