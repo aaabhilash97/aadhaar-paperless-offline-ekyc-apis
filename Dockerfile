@@ -1,14 +1,4 @@
-FROM golang:latest as build-env
-
-RUN apt-get update -qq
-# Install gotesseract system dependecies
-RUN apt-get install -y -qq libtesseract-dev libleptonica-dev
-ENV TESSDATA_PREFIX=/usr/share/tesseract-ocr/4.00/tessdata/
-
-RUN apt-get install -y -qq \
-    tesseract-ocr-eng \
-    tesseract-ocr-deu \
-    tesseract-ocr-jpn
+FROM golang:1.17.2-bullseye as build-env
 
 # All these steps will be cached
 RUN mkdir /app-server
@@ -25,20 +15,11 @@ ARG CI_COMMIT_SHA
 ARG CI_COMMIT_REF_NAME
 # RUN MKDIR -p dist
 # Build the binary
-RUN CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w -X main.gitCommit=$CI_COMMIT_SHA -X main.gitRef=$CI_COMMIT_REF_NAME" -a -installsuffix cgo -o ./app ./cmd/server/main.go
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w -X main.gitCommit=$CI_COMMIT_SHA -X main.gitRef=$CI_COMMIT_REF_NAME" -a -installsuffix cgo -o ./app ./cmd/server/main.go
 RUN ./app -version
 
 # <- Second step to build minimal image
-# FROM scratch
-FROM debian
-
-RUN apt-get update 
-RUN apt-get install -y -qq libtesseract-dev libleptonica-dev
-ENV TESSDATA_PREFIX=/usr/share/tesseract-ocr/4.00/tessdata/
-RUN apt-get install -y -qq \
-    tesseract-ocr-eng \
-    tesseract-ocr-deu \
-    tesseract-ocr-jpn
+FROM gcr.io/distroless/static-debian11
 
 WORKDIR /app-server
 

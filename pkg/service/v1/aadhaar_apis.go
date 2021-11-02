@@ -3,13 +3,9 @@ package service
 import (
 	"context"
 	"encoding/base64"
-	"errors"
-	"regexp"
-	"strings"
 
 	"github.com/aaabhilash97/aadhaar_scrapper_apis/pkg/aadhaarapi"
 	api "github.com/aaabhilash97/aadhaar_scrapper_apis/pkg/api/v1"
-	"github.com/otiai10/gosseract"
 	"go.uber.org/zap"
 )
 
@@ -225,91 +221,90 @@ func (s AadhaarService) fetchAadhaarResFromCache(
 	}, nil
 }
 
-func (s AadhaarService) AutoVerifyCaptcha(ctx context.Context, req *api.AutoVerifyCaptchaRequest) (res *api.AutoVerifyCaptchaResponse, err error) {
-	fn := "AutoVerifyCaptcha"
-	if err = req.Validate(); err != nil {
-		s.log.Error(fn, zap.Any("req", req), zap.Error(err))
-		if err, ok := err.(api.AutoVerifyCaptchaRequestValidationError); ok {
-			if status := validationErrToStaus(ctx, err); status != nil {
-				return &api.AutoVerifyCaptchaResponse{
-					Status: status,
-				}, nil
-			}
-		}
-		return
-	}
+// func (s AadhaarService) AutoVerifyCaptcha(ctx context.Context, req *api.AutoVerifyCaptchaRequest) (res *api.AutoVerifyCaptchaResponse, err error) {
+// 	fn := "AutoVerifyCaptcha"
+// 	if err = req.Validate(); err != nil {
+// 		s.log.Error(fn, zap.Any("req", req), zap.Error(err))
+// 		if err, ok := err.(api.AutoVerifyCaptchaRequestValidationError); ok {
+// 			if status := validationErrToStaus(ctx, err); status != nil {
+// 				return &api.AutoVerifyCaptchaResponse{
+// 					Status: status,
+// 				}, nil
+// 			}
+// 		}
+// 		return
+// 	}
 
-	var result aadhaarapi.VerifyCaptchaResult
-	var sessionCookie string
-	for i := 0; i <= 3; i++ {
-		s.log.Info(fn, zap.String("info", "fetching new captcha"))
-		var captchaImg []byte
-		captchaImg, sessionCookie, err = aadhaarapi.GetCaptcha()
-		if err != nil {
-			if aadhaarapi.IsRetryableError(err) {
-				s.log.Info(fn, zap.NamedError("retrying_error", err))
-				continue
-			}
-			break
-		} else {
-			s.log.Info(fn, zap.String("info", "captcha image fetch success"))
-			client := gosseract.NewClient()
-			defer client.Close()
-			err = client.SetImageFromBytes(captchaImg)
-			if err != nil {
-				s.log.Info(fn, zap.NamedError("retrying_error", err))
-				continue
-			}
-			var securityCode string
-			securityCode, err = client.Text()
-			if err != nil {
-				s.log.Info(fn, zap.NamedError("retrying_error", err))
-				continue
-			}
-			// Normalize security code
-			securityCode = strings.ReplaceAll(securityCode, " ", "")
-			securityCode = strings.ReplaceAll(securityCode, ",", "I")
-			if re := regexp.MustCompile(`^[a-zA-Z0-9]+$`); !re.Match([]byte(securityCode)) {
-				err = errors.New("Invalid captcha detected")
-				s.log.Info(fn, zap.String("un_processable_security_code", securityCode))
-				continue
-			}
+// 	var result aadhaarapi.VerifyCaptchaResult
+// 	var sessionCookie string
+// 	for i := 0; i <= 3; i++ {
+// 		s.log.Info(fn, zap.String("info", "fetching new captcha"))
+// 		var captchaImg []byte
+// 		captchaImg, sessionCookie, err = aadhaarapi.GetCaptcha()
+// 		if err != nil {
+// 			if aadhaarapi.IsRetryableError(err) {
+// 				s.log.Info(fn, zap.NamedError("retrying_error", err))
+// 				continue
+// 			}
+// 			break
+// 		} else {
+// 			s.log.Info(fn, zap.String("info", "captcha image fetch success"))
+// 			client := gosseract.NewClient()
+// 			defer client.Close()
+// 			err = client.SetImageFromBytes(captchaImg)
+// 			if err != nil {
+// 				s.log.Info(fn, zap.NamedError("retrying_error", err))
+// 				continue
+// 			}
+// 			var securityCode string
+// 			securityCode, err = client.Text()
+// 			if err != nil {
+// 				s.log.Info(fn, zap.NamedError("retrying_error", err))
+// 				continue
+// 			}
+// 			// Normalize security code
+// 			securityCode = strings.ReplaceAll(securityCode, " ", "")
+// 			if re := regexp.MustCompile(`^[a-zA-Z0-9]+$`); !re.Match([]byte(securityCode)) {
+// 				err = errors.New("Invalid captcha detected")
+// 				s.log.Info(fn, zap.String("un_processable_security_code", securityCode))
+// 				continue
+// 			}
 
-			result, err = aadhaarapi.VerifyCaptcha(aadhaarapi.VerifyCaptchaOpt{
-				SessionId:    sessionCookie,
-				UidNo:        req.UidNo,
-				SecurityCode: securityCode,
-			})
-			if aadhaarapi.IsInvalidCaptcha(err) {
-				s.log.Info(fn, zap.NamedError("retrying_error", err))
-				continue
-			}
-			s.log.Info(fn, zap.Any("result", result))
-			break
-		}
-	}
+// 			result, err = aadhaarapi.VerifyCaptcha(aadhaarapi.VerifyCaptchaOpt{
+// 				SessionId:    sessionCookie,
+// 				UidNo:        req.UidNo,
+// 				SecurityCode: securityCode,
+// 			})
+// 			if aadhaarapi.IsInvalidCaptcha(err) {
+// 				s.log.Info(fn, zap.String("securityCode", securityCode), zap.NamedError("retrying_error", err))
+// 				continue
+// 			}
+// 			s.log.Info(fn, zap.Any("result", result))
+// 			break
+// 		}
+// 	}
 
-	if err != nil {
-		s.log.Error(fn, zap.Any("req", req), zap.Error(err))
-		return &api.AutoVerifyCaptchaResponse{
-			Status: mapAadhaarErrToStatus(ctx, err),
-		}, nil
-	}
-	hash, err := s.aadhaarCacheStore.SaveSession(sessionCookie)
-	if err != nil {
-		s.log.Error(fn, zap.Any("req", req), zap.Error(err))
-		return &api.AutoVerifyCaptchaResponse{
-			Status: mapToStatus(ctx, ApiUnknownError, ""),
-		}, nil
-	}
+// 	if err != nil {
+// 		s.log.Error(fn, zap.Any("req", req), zap.Error(err))
+// 		return &api.AutoVerifyCaptchaResponse{
+// 			Status: mapAadhaarErrToStatus(ctx, err),
+// 		}, nil
+// 	}
+// 	hash, err := s.aadhaarCacheStore.SaveSession(sessionCookie)
+// 	if err != nil {
+// 		s.log.Error(fn, zap.Any("req", req), zap.Error(err))
+// 		return &api.AutoVerifyCaptchaResponse{
+// 			Status: mapToStatus(ctx, ApiUnknownError, ""),
+// 		}, nil
+// 	}
 
-	return &api.AutoVerifyCaptchaResponse{
-		Status: &api.ResponseStatus{
-			Code:    ApiSuccessCode,
-			Message: result.Msg,
-		},
-		Data: &api.AutoVerifyCaptchaResponse_Data{
-			SessionId: hash,
-		},
-	}, nil
-}
+// 	return &api.AutoVerifyCaptchaResponse{
+// 		Status: &api.ResponseStatus{
+// 			Code:    ApiSuccessCode,
+// 			Message: result.Msg,
+// 		},
+// 		Data: &api.AutoVerifyCaptchaResponse_Data{
+// 			SessionId: hash,
+// 		},
+// 	}, nil
+// }

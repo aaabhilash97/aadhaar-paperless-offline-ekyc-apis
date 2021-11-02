@@ -1,5 +1,6 @@
 module github.com/aaabhilash97/aadhaar_scrapper_apis
 
+// +heroku goVersion go1.17.2
 go 1.17
 
 require (
@@ -21,7 +22,6 @@ require (
 	github.com/PuerkitoBio/goquery v1.8.0
 	github.com/envoyproxy/protoc-gen-validate v0.6.2
 	github.com/go-redis/redis/v8 v8.11.4
-	github.com/otiai10/gosseract v2.2.1+incompatible
 	github.com/otiai10/gosseract/v2 v2.3.1
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/spf13/viper v1.9.0
