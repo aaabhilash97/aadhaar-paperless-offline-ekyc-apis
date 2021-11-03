@@ -54,7 +54,7 @@ accessLogger:
 
 ```
 
-### Use as a package [![Go Reference](https://pkg.go.dev/badge/github.com/aaabhilash97/aadhaar-paperless-offline-ekyc-apis/tree/main/pkg/aadhaarapi.svg)](https://pkg.go.dev/github.com/aaabhilash97/aadhaar-paperless-offline-ekyc-apis/tree/main/pkg/aadhaarapi)
+### Use as a package [![Go Reference](https://pkg.go.dev/badge/github.com/aaabhilash97/aadhaar-paperless-offline-ekyc-apis/pkg/aadhaarapi.svg)](https://pkg.go.dev/github.com/aaabhilash97/aadhaar-paperless-offline-ekyc-apis/pkg/aadhaarapi)
 
 ```sh
 import "github.com/aaabhilash97/aadhaar_scrapper_apis/pkg/aadhaarapi"
