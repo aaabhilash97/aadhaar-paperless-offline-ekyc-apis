@@ -1,4 +1,4 @@
-module github.com/aaabhilash97/aadhaar-paperless-offline-ekyc-apis/tree/main/pkg/aadhaarapi
+module github.com/aaabhilash97/aadhaar-paperless-offline-ekyc-apis/pkg/aadhaarapi
 
 go 1.17
 
