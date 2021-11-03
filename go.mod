@@ -19,17 +19,18 @@ require (
 )
 
 require (
-	github.com/PuerkitoBio/goquery v1.8.0
+	github.com/aaabhilash97/aadhaar-paperless-offline-ekyc-apis/pkg/aadhaarapi v0.0.0-20211103092922-11a7aa238557
 	github.com/envoyproxy/protoc-gen-validate v0.6.2
 	github.com/go-redis/redis/v8 v8.11.4
 	github.com/otiai10/gosseract/v2 v2.3.1
 	github.com/patrickmn/go-cache v2.1.0+incompatible
+	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.9.0
 	github.com/yeka/zip v0.0.0-20180914125537-d046722c6feb
 )
 
 require (
-	github.com/aaabhilash97/aadhaar-paperless-offline-ekyc-apis/pkg/aadhaarapi v0.0.0-20211103092922-11a7aa238557 // indirect
+	github.com/PuerkitoBio/goquery v1.8.0 // indirect
 	github.com/andybalholm/cascadia v1.3.1 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
@@ -44,7 +45,6 @@ require (
 	github.com/spf13/afero v1.6.0 // indirect
 	github.com/spf13/cast v1.4.1 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
-	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/subosito/gotenv v1.2.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/ini.v1 v1.63.2 // indirect
