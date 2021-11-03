@@ -16,7 +16,7 @@ ARG CI_COMMIT_REF_NAME
 # RUN MKDIR -p dist
 # Build the binary
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w -X main.gitCommit=$CI_COMMIT_SHA -X main.gitRef=$CI_COMMIT_REF_NAME" -a -installsuffix cgo -o ./app ./cmd/server/main.go
-RUN ./app -version
+RUN ./app --version
 
 # <- Second step to build minimal image
 FROM gcr.io/distroless/static-debian11
