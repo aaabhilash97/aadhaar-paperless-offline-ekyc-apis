@@ -9,8 +9,8 @@ import (
 
 	"go.uber.org/zap"
 
-	api "github.com/aaabhilash97/aadhaar_scrapper_apis/pkg/api/v1"
-	"github.com/aaabhilash97/aadhaar_scrapper_apis/pkg/protocol/rest/middleware"
+	api "github.com/aaabhilash97/aadhaar-paperless-offline-ekyc-apis/pkg/api/v1"
+	"github.com/aaabhilash97/aadhaar-paperless-offline-ekyc-apis/pkg/protocol/rest/middleware"
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"google.golang.org/grpc"

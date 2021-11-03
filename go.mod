@@ -1,4 +1,4 @@
-module github.com/aaabhilash97/aadhaar_scrapper_apis
+module github.com/aaabhilash97/aadhaar-paperless-offline-ekyc-apis
 
 // +heroku goVersion go1.17.2
 go 1.17
@@ -9,7 +9,7 @@ require (
 	go.uber.org/atomic v1.9.0 // indirect
 	go.uber.org/multierr v1.7.0 // indirect
 	go.uber.org/zap v1.19.1
-	golang.org/x/crypto v0.0.0-20210817164053-32db794688a5 // indirect
+	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519 // indirect
 	golang.org/x/net v0.0.0-20210916014120-12bc252f5db8 // indirect
 	golang.org/x/sys v0.0.0-20210910150752-751e447fb3d0 // indirect
 	golang.org/x/text v0.3.7 // indirect
@@ -29,6 +29,7 @@ require (
 )
 
 require (
+	github.com/aaabhilash97/aadhaar-paperless-offline-ekyc-apis/pkg/aadhaarapi v0.0.0-20211103092922-11a7aa238557 // indirect
 	github.com/andybalholm/cascadia v1.3.1 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect

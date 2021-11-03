@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/aaabhilash97/aadhaar_scrapper_apis/pkg/aadhaarapi"
-	api "github.com/aaabhilash97/aadhaar_scrapper_apis/pkg/api/v1"
+	"github.com/aaabhilash97/aadhaar-paperless-offline-ekyc-apis/pkg/aadhaarapi"
+	api "github.com/aaabhilash97/aadhaar-paperless-offline-ekyc-apis/pkg/api/v1"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
 )
