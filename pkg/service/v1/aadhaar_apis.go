@@ -197,6 +197,7 @@ func (s AadhaarService) buildDataFromAadhaarRes(
 	if req.IncludeZipFile {
 		data.ZipFile = base64.StdEncoding.EncodeToString(aadhaarRes.ZipFile)
 	}
+	data.XmlSignatureValidated = aadhaarRes.XmlSignatureValidated
 	return data
 }
 

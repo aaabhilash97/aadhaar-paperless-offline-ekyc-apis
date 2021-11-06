@@ -410,6 +410,10 @@
         "xmlFile": {
           "type": "string",
           "title": "additional fields if required"
+        },
+        "xmlSignatureValidated": {
+          "type": "boolean",
+          "title": "additional fields if required"
         }
       }
     },

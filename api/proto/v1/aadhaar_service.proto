@@ -165,7 +165,8 @@ message VerifyOtpAndGetAadhaarResponse {
     string zip_file = 2; // base64 encoded, optional fields, need to pass
                          // additional fields if required
     string xml_file = 3; // base64 encoded, optional fields, need to pass
-                         // additional fields if required
+    // additional fields if required
+    bool xml_signature_validated = 4;
   }
   Data data = 2;
 }
