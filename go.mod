@@ -10,20 +10,22 @@ require (
 	go.uber.org/multierr v1.7.0 // indirect
 	go.uber.org/zap v1.19.1
 	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519 // indirect
-	golang.org/x/net v0.0.0-20210916014120-12bc252f5db8 // indirect
-	golang.org/x/sys v0.0.0-20210910150752-751e447fb3d0 // indirect
+	golang.org/x/net v0.0.0-20211105192438-b53810dc28af // indirect
+	golang.org/x/sys v0.0.0-20211106132015-ebca88c72f68 // indirect
 	golang.org/x/text v0.3.7 // indirect
-	google.golang.org/genproto v0.0.0-20210909211513-a8c4777a87af
-	google.golang.org/grpc v1.40.0
+	google.golang.org/genproto v0.0.0-20211104193956-4c6863e31247
+	google.golang.org/grpc v1.42.0
 	google.golang.org/protobuf v1.27.1
 )
 
 require (
-	github.com/aaabhilash97/aadhaar-paperless-offline-ekyc-apis/pkg/aadhaarapi v0.0.0-20211103092922-11a7aa238557
+	github.com/aaabhilash97/aadhaar-paperless-offline-ekyc-apis/pkg/aadhaarapi v0.0.0-20211105085244-dcc18d8de667
+	github.com/beevik/etree v1.1.0
 	github.com/envoyproxy/protoc-gen-validate v0.6.2
 	github.com/go-redis/redis/v8 v8.11.4
 	github.com/otiai10/gosseract/v2 v2.3.1
 	github.com/patrickmn/go-cache v2.1.0+incompatible
+	github.com/russellhaering/goxmldsig v1.1.1
 	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.9.0
 	github.com/yeka/zip v0.0.0-20180914125537-d046722c6feb
@@ -32,7 +34,6 @@ require (
 require (
 	github.com/PuerkitoBio/goquery v1.8.0 // indirect
 	github.com/andybalholm/cascadia v1.3.1 // indirect
-	github.com/beevik/etree v1.1.0 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/fsnotify/fsnotify v1.5.1 // indirect
@@ -45,7 +46,6 @@ require (
 	github.com/mitchellh/mapstructure v1.4.2 // indirect
 	github.com/pelletier/go-toml v1.9.4 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/russellhaering/goxmldsig v1.1.1 // indirect
 	github.com/spf13/afero v1.6.0 // indirect
 	github.com/spf13/cast v1.4.1 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
