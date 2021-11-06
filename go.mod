@@ -19,7 +19,7 @@ require (
 )
 
 require (
-	github.com/aaabhilash97/aadhaar-paperless-offline-ekyc-apis/pkg/aadhaarapi v0.0.0-20211105085244-dcc18d8de667
+	github.com/aaabhilash97/aadhaar-paperless-offline-ekyc-apis/pkg/aadhaarapi v0.0.0-20211106145727-c50dbea70cfa
 	github.com/beevik/etree v1.1.0
 	github.com/envoyproxy/protoc-gen-validate v0.6.2
 	github.com/go-redis/redis/v8 v8.11.4
@@ -55,4 +55,4 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
 
-replace github.com/aaabhilash97/aadhaar-paperless-offline-ekyc-apis/pkg/aadhaarapi => ./pkg/aadhaarapi
+// replace github.com/aaabhilash97/aadhaar-paperless-offline-ekyc-apis/pkg/aadhaarapi => ./pkg/aadhaarapi

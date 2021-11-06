@@ -51,6 +51,8 @@ github.com/aaabhilash97/aadhaar-paperless-offline-ekyc-apis/pkg/aadhaarapi v0.0.
 github.com/aaabhilash97/aadhaar-paperless-offline-ekyc-apis/pkg/aadhaarapi v0.0.0-20211103092922-11a7aa238557/go.mod h1:k7PxZlXzNBBFn/7n4HcNt4ABEX/3byTT+h6clmnl4cs=
 github.com/aaabhilash97/aadhaar-paperless-offline-ekyc-apis/pkg/aadhaarapi v0.0.0-20211105085244-dcc18d8de667 h1:rfjg6pfiXVy6gDCW+pj6iXM1MQr1XGwuDynwrh7SbrU=
 github.com/aaabhilash97/aadhaar-paperless-offline-ekyc-apis/pkg/aadhaarapi v0.0.0-20211105085244-dcc18d8de667/go.mod h1:k7PxZlXzNBBFn/7n4HcNt4ABEX/3byTT+h6clmnl4cs=
+github.com/aaabhilash97/aadhaar-paperless-offline-ekyc-apis/pkg/aadhaarapi v0.0.0-20211106145727-c50dbea70cfa h1:Mf0DLB3dKjklS9tslGNR4oGiAtgHohK4J3JM8fMDWrc=
+github.com/aaabhilash97/aadhaar-paperless-offline-ekyc-apis/pkg/aadhaarapi v0.0.0-20211106145727-c50dbea70cfa/go.mod h1:7ZjpFBGxv76ZDD9ss8iW6UnIiMBjDv38R2CGhjLSihA=
 github.com/andybalholm/cascadia v1.3.1 h1:nhxRkql1kdYCc8Snf7D5/D3spOX+dBgjA6u8x004T2c=
 github.com/andybalholm/cascadia v1.3.1/go.mod h1:R4bJ1UQfqADjvDa4P6HZHLh/3OxWWEqc0Sk8XGwHqvA=
 github.com/antihax/optional v1.0.0/go.mod h1:uupD/76wgC+ih3iEmQUL+0Ugr19nfwCT1kdvxnR2qWY=
