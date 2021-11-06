@@ -19,7 +19,6 @@ require (
 )
 
 require (
-	github.com/aaabhilash97/aadhaar-paperless-offline-ekyc-apis/pkg/aadhaarapi v0.0.0-20211106145727-c50dbea70cfa
 	github.com/beevik/etree v1.1.0
 	github.com/envoyproxy/protoc-gen-validate v0.6.2
 	github.com/go-redis/redis/v8 v8.11.4
@@ -33,6 +32,7 @@ require (
 
 require (
 	github.com/PuerkitoBio/goquery v1.8.0 // indirect
+	github.com/aaabhilash97/aadhaar-paperless-offline-ekyc-apis/pkg/aadhaarapi v0.0.0-20211106154550-f85271df72ba // indirect
 	github.com/andybalholm/cascadia v1.3.1 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
