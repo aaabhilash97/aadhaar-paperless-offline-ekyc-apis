@@ -24,45 +24,6 @@
     "application/json"
   ],
   "paths": {
-    "/api/v1/AutoVerifyCaptcha": {
-      "post": {
-        "operationId": "AadhaarService_AutoVerifyCaptcha",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/aadhaarscrapperv1AutoVerifyCaptchaResponse"
-            }
-          },
-          "404": {
-            "description": "Returned when the resource does not exist.",
-            "schema": {
-              "type": "string",
-              "format": "string"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/aadhaarscrapperv1AutoVerifyCaptchaRequest"
-            }
-          }
-        ],
-        "tags": [
-          "AadhaarService"
-        ]
-      }
-    },
     "/api/v1/GetCaptcha": {
       "get": {
         "summary": "To fetch captcha and session id from UIDAI.",
@@ -88,6 +49,45 @@
             }
           }
         },
+        "tags": [
+          "AadhaarService"
+        ]
+      }
+    },
+    "/api/v1/VerifyAadhaarNumber": {
+      "post": {
+        "operationId": "AadhaarService_VerifyAadhaarNumber",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/aadhaarscrapperv1VerifyAadhaarNumberResponse"
+            }
+          },
+          "404": {
+            "description": "Returned when the resource does not exist.",
+            "schema": {
+              "type": "string",
+              "format": "string"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/aadhaarscrapperv1VerifyAadhaarNumberRequest"
+            }
+          }
+        ],
         "tags": [
           "AadhaarService"
         ]
@@ -261,36 +261,6 @@
         }
       }
     },
-    "aadhaarscrapperv1AutoVerifyCaptchaRequest": {
-      "type": "object",
-      "properties": {
-        "uidNo": {
-          "type": "string"
-        }
-      }
-    },
-    "aadhaarscrapperv1AutoVerifyCaptchaResponse": {
-      "type": "object",
-      "properties": {
-        "status": {
-          "$ref": "#/definitions/aadhaarscrapperv1ResponseStatus"
-        },
-        "data": {
-          "$ref": "#/definitions/aadhaarscrapperv1AutoVerifyCaptchaResponseData"
-        }
-      }
-    },
-    "aadhaarscrapperv1AutoVerifyCaptchaResponseData": {
-      "type": "object",
-      "properties": {
-        "sessionId": {
-          "type": "string"
-        },
-        "captchaImage": {
-          "type": "string"
-        }
-      }
-    },
     "aadhaarscrapperv1GetCaptchaResponse": {
       "type": "object",
       "properties": {
@@ -327,6 +297,51 @@
           "items": {
             "$ref": "#/definitions/ResponseStatusValidationErrDetail"
           }
+        }
+      }
+    },
+    "aadhaarscrapperv1VerifyAadhaarNumberRequest": {
+      "type": "object",
+      "properties": {
+        "sessionId": {
+          "type": "string"
+        },
+        "uidNo": {
+          "type": "string"
+        },
+        "securityCode": {
+          "type": "string"
+        }
+      }
+    },
+    "aadhaarscrapperv1VerifyAadhaarNumberResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "$ref": "#/definitions/aadhaarscrapperv1ResponseStatus"
+        },
+        "data": {
+          "$ref": "#/definitions/aadhaarscrapperv1VerifyAadhaarNumberResponseData"
+        }
+      }
+    },
+    "aadhaarscrapperv1VerifyAadhaarNumberResponseData": {
+      "type": "object",
+      "properties": {
+        "verified": {
+          "type": "boolean"
+        },
+        "ageBand": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
         }
       }
     },

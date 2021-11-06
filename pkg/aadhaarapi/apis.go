@@ -2,6 +2,7 @@ package aadhaarapi
 
 import (
 	"bytes"
+	"crypto/md5"
 	"encoding/xml"
 	"fmt"
 	"io"
@@ -18,6 +19,8 @@ const (
 	valOtp     = "valOtp"
 	genOtp     = "genOtp"
 	genCaptcha = "genCaptcha"
+
+	verifyAadhaar = "verifyaadhaar"
 )
 
 // GetCaptcha - To fetch captcha and session id from UIDAI.
@@ -114,7 +117,7 @@ func VerifyCaptcha(opt VerifyCaptchaOpt) (result VerifyCaptchaResult, err error)
 	return
 }
 
-type OfflineAAdhaarXML struct {
+type OfflineAadhaarXML struct {
 	XMLName xml.Name `xml:"OfflinePaperlessKyc"`
 	UidData struct {
 		Poi struct {
@@ -143,10 +146,11 @@ type OfflineAAdhaarXML struct {
 }
 
 type VerifyOTPAndGetAadhaarResult struct {
-	Details OfflineAAdhaarXML
+	Details OfflineAadhaarXML
 
-	ZipFile []byte
-	XmlFile []byte
+	XmlSignatureValidated bool
+	ZipFile               []byte
+	XmlFile               []byte
 }
 
 type VerifyOTPAndGetAadhaarOpt struct {
@@ -240,7 +244,13 @@ func VerifyOTPAndGetAadhaar(opt VerifyOTPAndGetAadhaarOpt) (result VerifyOTPAndG
 					})
 					return
 				}
-				xmlDetails := OfflineAAdhaarXML{}
+				if result.XmlSignatureValidated, err = ValidateXMLSignature(result.XmlFile); err != nil {
+					err = newAadhaarError(task, aadhaarError{
+						msg: err.Error(),
+					})
+					return
+				}
+				xmlDetails := OfflineAadhaarXML{}
 				err = xml.Unmarshal(result.XmlFile, &xmlDetails)
 				if err != nil {
 					err = newAadhaarError(task, aadhaarError{
@@ -258,5 +268,59 @@ func VerifyOTPAndGetAadhaar(opt VerifyOTPAndGetAadhaarOpt) (result VerifyOTPAndG
 	err = newAadhaarError(task, aadhaarError{
 		msg: "Unknown error",
 	})
+	return
+}
+
+type VerifyAadhaarNumberResult struct {
+	AgeBand string
+	State   string
+	Phone   string
+}
+
+// VerifyAadhaarNumber
+func VerifyAadhaarNumber(opt VerifyCaptchaOpt) (result VerifyAadhaarNumberResult, err error) {
+	if !IsValidAadhaarNo(opt.UidNo) {
+		err = &aadhaarError{
+			msg:        "Invalid aadhaar no",
+			invalidUid: true,
+		}
+		return
+	}
+
+	task := verifyAadhaar
+	payload := &bytes.Buffer{}
+	writer := multipart.NewWriter(payload)
+	_ = writer.WriteField("uidno", opt.UidNo)
+	_ = writer.WriteField("security_code", opt.SecurityCode)
+	_ = writer.WriteField("form_action", "Proceed+to+Verify")
+	_ = writer.WriteField("task", task)
+	_ = writer.WriteField("boxchecked", "0")
+	_ = writer.WriteField(fmt.Sprintf("%x", md5.Sum([]byte(opt.UidNo))), "1")
+	err = writer.Close()
+	if err != nil {
+		err = &aadhaarError{
+			msg: err.Error(),
+		}
+		return
+	}
+
+	url := "https://resident.uidai.gov.in/verify"
+	method := "POST"
+	aadhaarRes, err := makeHttpCall(method, url, map[string]string{
+		"Cookie":       opt.SessionId,
+		"Content-Type": writer.FormDataContentType(),
+	}, payload, 2)
+	if err != nil {
+		err = newAadhaarError(task, aadhaarError{
+			msg: err.Error(),
+		})
+		return
+	}
+	defer aadhaarRes.Body.Close()
+	_, err = mapVerifyAadhaarNumberPageResult(opt.UidNo, task, aadhaarRes.Body)
+	if err != nil {
+		return
+	}
+
 	return
 }

@@ -27,7 +27,7 @@ type AadhaarServiceClient interface {
 	VerifyCaptcha(ctx context.Context, in *VerifyCaptchaRequest, opts ...grpc.CallOption) (*VerifyCaptchaResponse, error)
 	// download zip file from UIDAI and fetch details.
 	VerifyOtpAndGetAadhaar(ctx context.Context, in *VerifyOtpAndGetAadhaarRequest, opts ...grpc.CallOption) (*VerifyOtpAndGetAadhaarResponse, error)
-	AutoVerifyCaptcha(ctx context.Context, in *AutoVerifyCaptchaRequest, opts ...grpc.CallOption) (*AutoVerifyCaptchaResponse, error)
+	VerifyAadhaarNumber(ctx context.Context, in *VerifyAadhaarNumberRequest, opts ...grpc.CallOption) (*VerifyAadhaarNumberResponse, error)
 }
 
 type aadhaarServiceClient struct {
@@ -65,9 +65,9 @@ func (c *aadhaarServiceClient) VerifyOtpAndGetAadhaar(ctx context.Context, in *V
 	return out, nil
 }
 
-func (c *aadhaarServiceClient) AutoVerifyCaptcha(ctx context.Context, in *AutoVerifyCaptchaRequest, opts ...grpc.CallOption) (*AutoVerifyCaptchaResponse, error) {
-	out := new(AutoVerifyCaptchaResponse)
-	err := c.cc.Invoke(ctx, "/aadhaarscrapperv1.AadhaarService/AutoVerifyCaptcha", in, out, opts...)
+func (c *aadhaarServiceClient) VerifyAadhaarNumber(ctx context.Context, in *VerifyAadhaarNumberRequest, opts ...grpc.CallOption) (*VerifyAadhaarNumberResponse, error) {
+	out := new(VerifyAadhaarNumberResponse)
+	err := c.cc.Invoke(ctx, "/aadhaarscrapperv1.AadhaarService/VerifyAadhaarNumber", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -87,7 +87,7 @@ type AadhaarServiceServer interface {
 	VerifyCaptcha(context.Context, *VerifyCaptchaRequest) (*VerifyCaptchaResponse, error)
 	// download zip file from UIDAI and fetch details.
 	VerifyOtpAndGetAadhaar(context.Context, *VerifyOtpAndGetAadhaarRequest) (*VerifyOtpAndGetAadhaarResponse, error)
-	AutoVerifyCaptcha(context.Context, *AutoVerifyCaptchaRequest) (*AutoVerifyCaptchaResponse, error)
+	VerifyAadhaarNumber(context.Context, *VerifyAadhaarNumberRequest) (*VerifyAadhaarNumberResponse, error)
 	mustEmbedUnimplementedAadhaarServiceServer()
 }
 
@@ -104,8 +104,8 @@ func (UnimplementedAadhaarServiceServer) VerifyCaptcha(context.Context, *VerifyC
 func (UnimplementedAadhaarServiceServer) VerifyOtpAndGetAadhaar(context.Context, *VerifyOtpAndGetAadhaarRequest) (*VerifyOtpAndGetAadhaarResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method VerifyOtpAndGetAadhaar not implemented")
 }
-func (UnimplementedAadhaarServiceServer) AutoVerifyCaptcha(context.Context, *AutoVerifyCaptchaRequest) (*AutoVerifyCaptchaResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AutoVerifyCaptcha not implemented")
+func (UnimplementedAadhaarServiceServer) VerifyAadhaarNumber(context.Context, *VerifyAadhaarNumberRequest) (*VerifyAadhaarNumberResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VerifyAadhaarNumber not implemented")
 }
 func (UnimplementedAadhaarServiceServer) mustEmbedUnimplementedAadhaarServiceServer() {}
 
@@ -174,20 +174,20 @@ func _AadhaarService_VerifyOtpAndGetAadhaar_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AadhaarService_AutoVerifyCaptcha_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AutoVerifyCaptchaRequest)
+func _AadhaarService_VerifyAadhaarNumber_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VerifyAadhaarNumberRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AadhaarServiceServer).AutoVerifyCaptcha(ctx, in)
+		return srv.(AadhaarServiceServer).VerifyAadhaarNumber(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/aadhaarscrapperv1.AadhaarService/AutoVerifyCaptcha",
+		FullMethod: "/aadhaarscrapperv1.AadhaarService/VerifyAadhaarNumber",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AadhaarServiceServer).AutoVerifyCaptcha(ctx, req.(*AutoVerifyCaptchaRequest))
+		return srv.(AadhaarServiceServer).VerifyAadhaarNumber(ctx, req.(*VerifyAadhaarNumberRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -212,8 +212,8 @@ var AadhaarService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _AadhaarService_VerifyOtpAndGetAadhaar_Handler,
 		},
 		{
-			MethodName: "AutoVerifyCaptcha",
-			Handler:    _AadhaarService_AutoVerifyCaptcha_Handler,
+			MethodName: "VerifyAadhaarNumber",
+			Handler:    _AadhaarService_VerifyAadhaarNumber_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

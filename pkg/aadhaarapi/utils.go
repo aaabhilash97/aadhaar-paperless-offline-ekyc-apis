@@ -1,6 +1,7 @@
 package aadhaarapi
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 
@@ -70,6 +71,33 @@ func mapAadhaarPageResult(task string, body io.ReadCloser) (result aadhaarPageRe
 	}
 	result = aadhaarPageResult{
 		Msg: aadhaarMessage,
+	}
+	return
+}
+
+type VerifyAadhaarNumberPageResult struct {
+	Msg        string
+	IsVerified bool
+}
+
+func mapVerifyAadhaarNumberPageResult(uidNo, task string, body io.ReadCloser) (result VerifyAadhaarNumberPageResult, err error) {
+	doc, err := goquery.NewDocumentFromReader(body)
+	if err != nil {
+		return
+	}
+
+	// Find error aadhaar page
+	headerMsg := doc.Find("div.mb-15 > div.col-md-10.col-sm-10.col-xs-9.pl-0 > h2")
+	if headerMsg == nil {
+		err = newAadhaarError(task, aadhaarError{
+			msg:              "unknown error",
+			aadhaarPageError: true,
+		})
+	}
+	result.IsVerified = headerMsg.Text() == fmt.Sprintf("Aadhaar Number %s Exists!", uidNo)
+
+	result = VerifyAadhaarNumberPageResult{
+		Msg: headerMsg.Text(),
 	}
 	return
 }

@@ -934,34 +934,49 @@ var _ interface {
 	ErrorName() string
 } = VerifyOtpAndGetAadhaarResponseValidationError{}
 
-// Validate checks the field values on AutoVerifyCaptchaRequest with the rules
-// defined in the proto definition for this message. If any rules are
+// Validate checks the field values on VerifyAadhaarNumberRequest with the
+// rules defined in the proto definition for this message. If any rules are
 // violated, an error is returned.
-func (m *AutoVerifyCaptchaRequest) Validate() error {
+func (m *VerifyAadhaarNumberRequest) Validate() error {
 	if m == nil {
 		return nil
 	}
 
-	if l := utf8.RuneCountInString(m.GetUidNo()); l < 12 || l > 16 {
-		return AutoVerifyCaptchaRequestValidationError{
-			field:  "UidNo",
-			reason: "value length must be between 12 and 16 runes, inclusive",
+	if utf8.RuneCountInString(m.GetSessionId()) < 1 {
+		return VerifyAadhaarNumberRequestValidationError{
+			field:  "SessionId",
+			reason: "value length must be at least 1 runes",
 		}
 	}
 
-	if !_AutoVerifyCaptchaRequest_UidNo_Pattern.MatchString(m.GetUidNo()) {
-		return AutoVerifyCaptchaRequestValidationError{
+	if utf8.RuneCountInString(m.GetUidNo()) != 12 {
+		return VerifyAadhaarNumberRequestValidationError{
+			field:  "UidNo",
+			reason: "value length must be 12 runes",
+		}
+
+	}
+
+	if !_VerifyAadhaarNumberRequest_UidNo_Pattern.MatchString(m.GetUidNo()) {
+		return VerifyAadhaarNumberRequestValidationError{
 			field:  "UidNo",
 			reason: "value does not match regex pattern \"^[0-9]*$\"",
+		}
+	}
+
+	if utf8.RuneCountInString(m.GetSecurityCode()) < 1 {
+		return VerifyAadhaarNumberRequestValidationError{
+			field:  "SecurityCode",
+			reason: "value length must be at least 1 runes",
 		}
 	}
 
 	return nil
 }
 
-// AutoVerifyCaptchaRequestValidationError is the validation error returned by
-// AutoVerifyCaptchaRequest.Validate if the designated constraints aren't met.
-type AutoVerifyCaptchaRequestValidationError struct {
+// VerifyAadhaarNumberRequestValidationError is the validation error returned
+// by VerifyAadhaarNumberRequest.Validate if the designated constraints aren't met.
+type VerifyAadhaarNumberRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -969,24 +984,24 @@ type AutoVerifyCaptchaRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e AutoVerifyCaptchaRequestValidationError) Field() string { return e.field }
+func (e VerifyAadhaarNumberRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e AutoVerifyCaptchaRequestValidationError) Reason() string { return e.reason }
+func (e VerifyAadhaarNumberRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e AutoVerifyCaptchaRequestValidationError) Cause() error { return e.cause }
+func (e VerifyAadhaarNumberRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e AutoVerifyCaptchaRequestValidationError) Key() bool { return e.key }
+func (e VerifyAadhaarNumberRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e AutoVerifyCaptchaRequestValidationError) ErrorName() string {
-	return "AutoVerifyCaptchaRequestValidationError"
+func (e VerifyAadhaarNumberRequestValidationError) ErrorName() string {
+	return "VerifyAadhaarNumberRequestValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e AutoVerifyCaptchaRequestValidationError) Error() string {
+func (e VerifyAadhaarNumberRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -998,14 +1013,14 @@ func (e AutoVerifyCaptchaRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sAutoVerifyCaptchaRequest.%s: %s%s",
+		"invalid %sVerifyAadhaarNumberRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = AutoVerifyCaptchaRequestValidationError{}
+var _ error = VerifyAadhaarNumberRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -1013,21 +1028,21 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = AutoVerifyCaptchaRequestValidationError{}
+} = VerifyAadhaarNumberRequestValidationError{}
 
-var _AutoVerifyCaptchaRequest_UidNo_Pattern = regexp.MustCompile("^[0-9]*$")
+var _VerifyAadhaarNumberRequest_UidNo_Pattern = regexp.MustCompile("^[0-9]*$")
 
-// Validate checks the field values on AutoVerifyCaptchaResponse with the rules
-// defined in the proto definition for this message. If any rules are
+// Validate checks the field values on VerifyAadhaarNumberResponse with the
+// rules defined in the proto definition for this message. If any rules are
 // violated, an error is returned.
-func (m *AutoVerifyCaptchaResponse) Validate() error {
+func (m *VerifyAadhaarNumberResponse) Validate() error {
 	if m == nil {
 		return nil
 	}
 
 	if v, ok := interface{}(m.GetStatus()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return AutoVerifyCaptchaResponseValidationError{
+			return VerifyAadhaarNumberResponseValidationError{
 				field:  "Status",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -1037,7 +1052,7 @@ func (m *AutoVerifyCaptchaResponse) Validate() error {
 
 	if v, ok := interface{}(m.GetData()).(interface{ Validate() error }); ok {
 		if err := v.Validate(); err != nil {
-			return AutoVerifyCaptchaResponseValidationError{
+			return VerifyAadhaarNumberResponseValidationError{
 				field:  "Data",
 				reason: "embedded message failed validation",
 				cause:  err,
@@ -1048,9 +1063,10 @@ func (m *AutoVerifyCaptchaResponse) Validate() error {
 	return nil
 }
 
-// AutoVerifyCaptchaResponseValidationError is the validation error returned by
-// AutoVerifyCaptchaResponse.Validate if the designated constraints aren't met.
-type AutoVerifyCaptchaResponseValidationError struct {
+// VerifyAadhaarNumberResponseValidationError is the validation error returned
+// by VerifyAadhaarNumberResponse.Validate if the designated constraints
+// aren't met.
+type VerifyAadhaarNumberResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1058,24 +1074,24 @@ type AutoVerifyCaptchaResponseValidationError struct {
 }
 
 // Field function returns field value.
-func (e AutoVerifyCaptchaResponseValidationError) Field() string { return e.field }
+func (e VerifyAadhaarNumberResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e AutoVerifyCaptchaResponseValidationError) Reason() string { return e.reason }
+func (e VerifyAadhaarNumberResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e AutoVerifyCaptchaResponseValidationError) Cause() error { return e.cause }
+func (e VerifyAadhaarNumberResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e AutoVerifyCaptchaResponseValidationError) Key() bool { return e.key }
+func (e VerifyAadhaarNumberResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e AutoVerifyCaptchaResponseValidationError) ErrorName() string {
-	return "AutoVerifyCaptchaResponseValidationError"
+func (e VerifyAadhaarNumberResponseValidationError) ErrorName() string {
+	return "VerifyAadhaarNumberResponseValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e AutoVerifyCaptchaResponseValidationError) Error() string {
+func (e VerifyAadhaarNumberResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1087,14 +1103,14 @@ func (e AutoVerifyCaptchaResponseValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sAutoVerifyCaptchaResponse.%s: %s%s",
+		"invalid %sVerifyAadhaarNumberResponse.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = AutoVerifyCaptchaResponseValidationError{}
+var _ error = VerifyAadhaarNumberResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -1102,7 +1118,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = AutoVerifyCaptchaResponseValidationError{}
+} = VerifyAadhaarNumberResponseValidationError{}
 
 // Validate checks the field values on ResponseStatus_ValidationErrDetail with
 // the rules defined in the proto definition for this message. If any rules
@@ -1497,25 +1513,31 @@ var _ interface {
 	ErrorName() string
 } = VerifyOtpAndGetAadhaarResponse_DataValidationError{}
 
-// Validate checks the field values on AutoVerifyCaptchaResponse_Data with the
-// rules defined in the proto definition for this message. If any rules are
-// violated, an error is returned.
-func (m *AutoVerifyCaptchaResponse_Data) Validate() error {
+// Validate checks the field values on VerifyAadhaarNumberResponse_Data with
+// the rules defined in the proto definition for this message. If any rules
+// are violated, an error is returned.
+func (m *VerifyAadhaarNumberResponse_Data) Validate() error {
 	if m == nil {
 		return nil
 	}
 
-	// no validation rules for SessionId
+	// no validation rules for Verified
 
-	// no validation rules for CaptchaImage
+	// no validation rules for AgeBand
+
+	// no validation rules for Gender
+
+	// no validation rules for State
+
+	// no validation rules for Phone
 
 	return nil
 }
 
-// AutoVerifyCaptchaResponse_DataValidationError is the validation error
-// returned by AutoVerifyCaptchaResponse_Data.Validate if the designated
+// VerifyAadhaarNumberResponse_DataValidationError is the validation error
+// returned by VerifyAadhaarNumberResponse_Data.Validate if the designated
 // constraints aren't met.
-type AutoVerifyCaptchaResponse_DataValidationError struct {
+type VerifyAadhaarNumberResponse_DataValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1523,24 +1545,24 @@ type AutoVerifyCaptchaResponse_DataValidationError struct {
 }
 
 // Field function returns field value.
-func (e AutoVerifyCaptchaResponse_DataValidationError) Field() string { return e.field }
+func (e VerifyAadhaarNumberResponse_DataValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e AutoVerifyCaptchaResponse_DataValidationError) Reason() string { return e.reason }
+func (e VerifyAadhaarNumberResponse_DataValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e AutoVerifyCaptchaResponse_DataValidationError) Cause() error { return e.cause }
+func (e VerifyAadhaarNumberResponse_DataValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e AutoVerifyCaptchaResponse_DataValidationError) Key() bool { return e.key }
+func (e VerifyAadhaarNumberResponse_DataValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e AutoVerifyCaptchaResponse_DataValidationError) ErrorName() string {
-	return "AutoVerifyCaptchaResponse_DataValidationError"
+func (e VerifyAadhaarNumberResponse_DataValidationError) ErrorName() string {
+	return "VerifyAadhaarNumberResponse_DataValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e AutoVerifyCaptchaResponse_DataValidationError) Error() string {
+func (e VerifyAadhaarNumberResponse_DataValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1552,14 +1574,14 @@ func (e AutoVerifyCaptchaResponse_DataValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sAutoVerifyCaptchaResponse_Data.%s: %s%s",
+		"invalid %sVerifyAadhaarNumberResponse_Data.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = AutoVerifyCaptchaResponse_DataValidationError{}
+var _ error = VerifyAadhaarNumberResponse_DataValidationError{}
 
 var _ interface {
 	Field() string
@@ -1567,4 +1589,4 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = AutoVerifyCaptchaResponse_DataValidationError{}
+} = VerifyAadhaarNumberResponse_DataValidationError{}

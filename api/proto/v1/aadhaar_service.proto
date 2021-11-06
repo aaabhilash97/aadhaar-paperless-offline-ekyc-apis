@@ -170,16 +170,21 @@ message VerifyOtpAndGetAadhaarResponse {
   Data data = 2;
 }
 
-message AutoVerifyCaptchaRequest {
-  string uid_no = 1 [
-    (validate.rules).string = {pattern : "^[0-9]*$", max_len : 16, min_len : 12}
+message VerifyAadhaarNumberRequest {
+  string session_id = 1 [ (validate.rules).string = {min_len : 1} ];
+  string uid_no = 2 [
+    (validate.rules).string = {pattern : "^[0-9]*$", max_len : 12, min_len : 12}
   ];
+  string security_code = 3 [ (validate.rules).string = {min_len : 1} ];
 }
-message AutoVerifyCaptchaResponse {
+message VerifyAadhaarNumberResponse {
   ResponseStatus status = 1;
   message Data {
-    string session_id = 1;
-    string captcha_image = 2;
+    bool verified = 1;
+    string age_band = 2;
+    string gender = 3;
+    string state = 4;
+    string phone = 5;
   }
   Data data = 2;
 }
@@ -213,10 +218,10 @@ service AadhaarService {
     };
   }
 
-  rpc AutoVerifyCaptcha(AutoVerifyCaptchaRequest)
-      returns (AutoVerifyCaptchaResponse) {
+  rpc VerifyAadhaarNumber(VerifyAadhaarNumberRequest)
+      returns (VerifyAadhaarNumberResponse) {
     option (google.api.http) = {
-      post : "/api/v1/AutoVerifyCaptcha"
+      post : "/api/v1/VerifyAadhaarNumber"
       body : "*"
     };
   }
