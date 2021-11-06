@@ -340,7 +340,7 @@
         "state": {
           "type": "string"
         },
-        "phone": {
+        "mobileNumber": {
           "type": "string"
         },
         "details": {

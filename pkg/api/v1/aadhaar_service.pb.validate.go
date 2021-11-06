@@ -1531,7 +1531,7 @@ func (m *VerifyAadhaarNumberResponse_Data) Validate() error {
 
 	// no validation rules for State
 
-	// no validation rules for Phone
+	// no validation rules for MobileNumber
 
 	// no validation rules for Details
 

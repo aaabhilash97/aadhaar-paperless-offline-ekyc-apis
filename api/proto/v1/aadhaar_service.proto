@@ -185,7 +185,7 @@ message VerifyAadhaarNumberResponse {
     string age_band = 2;
     string gender = 3;
     string state = 4;
-    string phone = 5;
+    string mobile_number = 5;
     string details = 6;
   }
   Data data = 2;

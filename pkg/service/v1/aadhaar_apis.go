@@ -257,8 +257,12 @@ func (s AadhaarService) VerifyAadhaarNumber(ctx context.Context, req *api.Verify
 			Code: ApiSuccessCode,
 		},
 		Data: &api.VerifyAadhaarNumberResponse_Data{
-			Details:  result.Details,
-			Verified: result.IsVerified,
+			Details:      result.Details,
+			AgeBand:      result.AgeBand,
+			State:        result.State,
+			Gender:       result.Gender,
+			MobileNumber: result.MobileNumber,
+			Verified:     result.IsVerified,
 		},
 	}, nil
 }

@@ -272,11 +272,13 @@ func VerifyOTPAndGetAadhaar(opt VerifyOTPAndGetAadhaarOpt) (result VerifyOTPAndG
 }
 
 type VerifyAadhaarNumberResult struct {
-	AgeBand    string
-	State      string
-	Phone      string
-	Details    string
-	IsVerified bool
+	Msg          string
+	IsVerified   bool
+	AgeBand      string
+	State        string
+	Gender       string
+	MobileNumber string
+	Details      string
 }
 
 // VerifyAadhaarNumber
@@ -324,7 +326,6 @@ func VerifyAadhaarNumber(opt VerifyCaptchaOpt) (result VerifyAadhaarNumberResult
 		return
 	}
 
-	result.Details = res.Details
-	result.IsVerified = res.IsVerified
+	result = VerifyAadhaarNumberResult(res)
 	return
 }

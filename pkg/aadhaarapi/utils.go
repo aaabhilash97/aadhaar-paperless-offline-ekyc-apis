@@ -76,9 +76,13 @@ func mapAadhaarPageResult(task string, body io.ReadCloser) (result aadhaarPageRe
 }
 
 type VerifyAadhaarNumberPageResult struct {
-	Msg        string
-	IsVerified bool
-	Details    string
+	Msg          string
+	IsVerified   bool
+	AgeBand      string
+	State        string
+	Gender       string
+	MobileNumber string
+	Details      string
 }
 
 func mapVerifyAadhaarNumberPageResult(uidNo, task string, body io.ReadCloser) (result VerifyAadhaarNumberPageResult, err error) {
@@ -97,6 +101,34 @@ func mapVerifyAadhaarNumberPageResult(uidNo, task string, body io.ReadCloser) (r
 	}
 	if details := doc.Find("#maincontent"); details != nil {
 		result.Details, err = details.Html()
+		if err != nil {
+			return
+		}
+	}
+
+	if details := doc.Find("#maincontent > div > div.mb-15 > div.col-xs-12.my-20 > span:nth-child(1) > b"); details != nil {
+		result.AgeBand, err = details.Html()
+		if err != nil {
+			return
+		}
+	}
+
+	if details := doc.Find("#maincontent > div > div.mb-15 > div.col-xs-12.my-20 > span:nth-child(2) > b"); details != nil {
+		result.Gender, err = details.Html()
+		if err != nil {
+			return
+		}
+	}
+
+	if details := doc.Find("#maincontent > div > div.mb-15 > div.col-xs-12.my-20 > span:nth-child(3) > b"); details != nil {
+		result.State, err = details.Html()
+		if err != nil {
+			return
+		}
+	}
+
+	if details := doc.Find("#maincontent > div > div.mb-15 > div.col-xs-12.my-20 > span:nth-child(4) > b"); details != nil {
+		result.MobileNumber, err = details.Html()
 		if err != nil {
 			return
 		}
