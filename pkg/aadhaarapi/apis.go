@@ -272,9 +272,11 @@ func VerifyOTPAndGetAadhaar(opt VerifyOTPAndGetAadhaarOpt) (result VerifyOTPAndG
 }
 
 type VerifyAadhaarNumberResult struct {
-	AgeBand string
-	State   string
-	Phone   string
+	AgeBand    string
+	State      string
+	Phone      string
+	Details    string
+	IsVerified bool
 }
 
 // VerifyAadhaarNumber
@@ -295,7 +297,7 @@ func VerifyAadhaarNumber(opt VerifyCaptchaOpt) (result VerifyAadhaarNumberResult
 	_ = writer.WriteField("form_action", "Proceed+to+Verify")
 	_ = writer.WriteField("task", task)
 	_ = writer.WriteField("boxchecked", "0")
-	_ = writer.WriteField(fmt.Sprintf("%x", md5.Sum([]byte(opt.UidNo))), "1")
+	_ = writer.WriteField(fmt.Sprintf("%x", md5.Sum([]byte(opt.UidNo+opt.SecurityCode))), "1")
 	err = writer.Close()
 	if err != nil {
 		err = &aadhaarError{
@@ -317,10 +319,12 @@ func VerifyAadhaarNumber(opt VerifyCaptchaOpt) (result VerifyAadhaarNumberResult
 		return
 	}
 	defer aadhaarRes.Body.Close()
-	_, err = mapVerifyAadhaarNumberPageResult(opt.UidNo, task, aadhaarRes.Body)
+	res, err := mapVerifyAadhaarNumberPageResult(opt.UidNo, task, aadhaarRes.Body)
 	if err != nil {
 		return
 	}
 
+	result.Details = res.Details
+	result.IsVerified = res.IsVerified
 	return
 }

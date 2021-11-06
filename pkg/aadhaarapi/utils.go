@@ -78,6 +78,7 @@ func mapAadhaarPageResult(task string, body io.ReadCloser) (result aadhaarPageRe
 type VerifyAadhaarNumberPageResult struct {
 	Msg        string
 	IsVerified bool
+	Details    string
 }
 
 func mapVerifyAadhaarNumberPageResult(uidNo, task string, body io.ReadCloser) (result VerifyAadhaarNumberPageResult, err error) {
@@ -94,10 +95,14 @@ func mapVerifyAadhaarNumberPageResult(uidNo, task string, body io.ReadCloser) (r
 			aadhaarPageError: true,
 		})
 	}
-	result.IsVerified = headerMsg.Text() == fmt.Sprintf("Aadhaar Number %s Exists!", uidNo)
-
-	result = VerifyAadhaarNumberPageResult{
-		Msg: headerMsg.Text(),
+	if details := doc.Find("#maincontent"); details != nil {
+		result.Details, err = details.Html()
+		if err != nil {
+			return
+		}
 	}
+
+	result.IsVerified = headerMsg.Text() == fmt.Sprintf("Aadhaar Number %s Exists!", uidNo)
+	result.Msg = headerMsg.Text()
 	return
 }
