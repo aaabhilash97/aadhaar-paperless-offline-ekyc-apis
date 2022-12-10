@@ -1,3 +1,9 @@
+
+
+## [DEPRECATED]
+This project won't work anymore as aadhaar offline-kyc website deeprecated(https://resident.uidai.gov.in/offline-kyc).
+
+
 # Aadhaar Paperless Offline e-KYC APIs
 
 Aadhaar Paperless Offline e-KYC is a secure and shareable document which can be used by any Aadhaar holder for offline verification of identification.(https://resident.uidai.gov.in/offline-kyc)
