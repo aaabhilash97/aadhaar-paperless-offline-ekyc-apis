@@ -1,7 +1,7 @@
 
 
 ## [DEPRECATED]
-This project won't work anymore as aadhaar offline-kyc website deeprecated(https://resident.uidai.gov.in/offline-kyc).
+This project won't work anymore as aadhaar offline-kyc website deprecated(https://resident.uidai.gov.in/offline-kyc).
 
 
 # Aadhaar Paperless Offline e-KYC APIs
